@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { UsersDetails } from "@/app/provider";
+import { UsersDetail } from "@/app/provider";
 
 
 
