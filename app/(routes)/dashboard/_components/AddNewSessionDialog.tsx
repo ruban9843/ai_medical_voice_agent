@@ -15,12 +15,15 @@ import { DialogClose } from '@radix-ui/react-dialog'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import axios from 'axios'
 import DoctorAgentCard, { doctorAgent } from './DoctorAgentCard'
+import SuggestedDoctorCard from './SuggestedDoctorCard'
 
 function AddNewSessionDialog() {
 
     const [note,setNote]=useState<string>();
     const[loading,setLoading]=useState(false);
     const[suggestedDoctors,setSuggestedDoctors]=useState<doctorAgent[]>();
+    const [selectedDoctor, setSelectedDoctor] = useState<doctorAgent>();
+    console.log("selectedDoctorsugan", selectedDoctor);
 
 
     const OnClickNext = async() => {
@@ -33,9 +36,25 @@ function AddNewSessionDialog() {
         setLoading(false);
     }
 
+
+    const OnStartConsultation = async () => {
+        setLoading(true);
+        // save all the info into database
+        const result = await axios.post('/api/session-chat', {
+            notes:note,
+            selectedDoctor:selectedDoctor
+        })
+        console.log(result.data);
+        if(result.data?.sessionId){
+            console.log(result.data.sessionId);
+            //Route to new conversation screen 
+        }
+        setLoading(false);
+    }
+
     return (
         <Dialog>
-            <DialogTrigger >
+            <DialogTrigger asChild >
                 <Button className='w-full mt-2'>Start Consultation</Button>
             </DialogTrigger>
             <DialogContent>
@@ -49,30 +68,32 @@ function AddNewSessionDialog() {
                                 onChange={(e)=>setNote(e.target.value)}/>
                             </div>
                             :
-                            <div className="grid grid-cols-3 gap-5 ">
+                            <div className="">
+                                <h1>Select The Doctor</h1>
+                                <div className="grid grid-cols-3 gap-5 ">
                                 {/* suggested doctors */}
-
                                 {suggestedDoctors.map((doctor, index) => (
-                                        <DoctorAgentCard key={index} doctorAgent={doctor} />
+                                        <SuggestedDoctorCard key={index} doctorAgent={doctor} SetSelectedDoctor={()=>{setSelectedDoctor(doctor)}} 
+                                        //@ts-ignore
+                                        selectedDoctor={selectedDoctor} />
                                     ))
                                 }
-
-
                             </div>
-                        
+                            </div>
                         }
                         
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <DialogClose>
+                    <DialogClose asChild>
                         <Button variant={'outline'}>Cancel</Button>
                     </DialogClose>
-                    {!suggestedDoctors?<Button disabled={!note} onClick={()=>OnClickNext()}>
+                    {!suggestedDoctors?<Button disabled={!note ||loading} onClick={()=>OnClickNext()}>
                         Next {loading && <Loader2 className='animate-spin'/>}<ArrowRight/></Button>
                     :
-                    <Button >
+                    <Button disabled={!selectedDoctor ||loading}  onClick={()=>OnStartConsultation()} >
                         Start Consultation
+                        {loading && <Loader2 className='animate-spin'/>}<ArrowRight/>
                     </Button>}
                 </DialogFooter>
             </DialogContent>
