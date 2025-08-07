@@ -16,20 +16,21 @@ import { ArrowRight, Loader2 } from 'lucide-react'
 import axios from 'axios'
 import DoctorAgentCard, { doctorAgent } from './DoctorAgentCard'
 import SuggestedDoctorCard from './SuggestedDoctorCard'
+import { useRouter } from 'next/navigation'
 
 function AddNewSessionDialog() {
 
-    const [note,setNote]=useState<string>();
-    const[loading,setLoading]=useState(false);
-    const[suggestedDoctors,setSuggestedDoctors]=useState<doctorAgent[]>();
+    const [note, setNote] = useState<string>();
+    const [loading, setLoading] = useState(false);
+    const [suggestedDoctors, setSuggestedDoctors] = useState<doctorAgent[]>();
     const [selectedDoctor, setSelectedDoctor] = useState<doctorAgent>();
-    console.log("selectedDoctorsugan", selectedDoctor);
+    const router = useRouter()
 
 
-    const OnClickNext = async() => {
+    const OnClickNext = async () => {
         setLoading(true);
-        const result = await axios.post('/api/suggest-doctors',  {
-            notes:note
+        const result = await axios.post('/api/suggest-doctors', {
+            notes: note
         })
         console.log(result.data);
         setSuggestedDoctors(result.data);
@@ -39,62 +40,66 @@ function AddNewSessionDialog() {
 
     const OnStartConsultation = async () => {
         setLoading(true);
-        // save all the info into database
         const result = await axios.post('/api/session-chat', {
-            notes:note,
-            selectedDoctor:selectedDoctor
-        })
-        console.log(result.data);
+            notes: note,
+            selectedDoctor: selectedDoctor
+        });
+        console.log("suguaan",result.data)
         if(result.data?.sessionId){
-            console.log(result.data.sessionId);
-            //Route to new conversation screen 
+            console.log(result.data?.sessionId);
+            //route to new conversation
+            router.push('/dashboard/medical-agent/'+result.data?.sessionId)
         }
-        setLoading(false);
+         setLoading(false); 
     }
 
     return (
-        <Dialog>
-            <DialogTrigger asChild >
-                <Button className='w-full mt-2'>Start Consultation</Button>
+        <Dialog >
+            <DialogTrigger  >
+                <span className='mt-2 inline-block px-4 py-2 bg-primary text-white rounded cursor-pointer hover:bg-primary/90'>
+                    Start Consultation
+                </span>
             </DialogTrigger>
             <DialogContent>
-                <DialogHeader>
+                <DialogHeader >
                     <DialogTitle>Add Basic Details</DialogTitle>
-                    <DialogDescription asChild>
-                        {!suggestedDoctors?
+                    <DialogDescription asChild >
+                        {!suggestedDoctors ?
                             <div className="">
                                 <h1>Add Symptoms Or Any Other Details</h1>
-                                <Textarea placeholder='Add details here ...' className='h-[200px] mt-1 ' 
-                                onChange={(e)=>setNote(e.target.value)}/>
+                                <Textarea placeholder='Add details here ...' className='h-[200px] mt-1 '
+                                    onChange={(e) => setNote(e.target.value)} />
                             </div>
                             :
                             <div className="">
                                 <h1>Select The Doctor</h1>
                                 <div className="grid grid-cols-3 gap-5 ">
-                                {/* suggested doctors */}
-                                {suggestedDoctors.map((doctor, index) => (
-                                        <SuggestedDoctorCard key={index} doctorAgent={doctor} SetSelectedDoctor={()=>{setSelectedDoctor(doctor)}} 
-                                        //@ts-ignore
-                                        selectedDoctor={selectedDoctor} />
+                                    {/* suggested doctors */}
+                                    {suggestedDoctors?.map((doctor, index) => (
+                                        <SuggestedDoctorCard key={index} doctorAgent={doctor} SetSelectedDoctor={() => { setSelectedDoctor(doctor) }}
+                                            //@ts-ignore
+                                            selectedDoctor={selectedDoctor} />
                                     ))
-                                }
-                            </div>
+                                    }
+                                </div>
                             </div>
                         }
-                        
+
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button variant={'outline'}>Cancel</Button>
+                    <DialogClose>
+                        <span >
+                            Cancel
+                        </span>
                     </DialogClose>
-                    {!suggestedDoctors?<Button disabled={!note ||loading} onClick={()=>OnClickNext()}>
-                        Next {loading && <Loader2 className='animate-spin'/>}<ArrowRight/></Button>
-                    :
-                    <Button disabled={!selectedDoctor ||loading}  onClick={()=>OnStartConsultation()} >
-                        Start Consultation
-                        {loading && <Loader2 className='animate-spin'/>}<ArrowRight/>
-                    </Button>}
+                    {!suggestedDoctors ? <Button disabled={!note || loading} onClick={() => OnClickNext()}>
+                        Next {loading && <Loader2 className='animate-spin' />}<ArrowRight /></Button>
+                        :
+                        <Button disabled={!selectedDoctor || loading} onClick={() => OnStartConsultation()} >
+                            Start Consultation
+                            {loading && <Loader2 className='animate-spin' />}<ArrowRight />
+                        </Button>}
                 </DialogFooter>
             </DialogContent>
         </Dialog>
