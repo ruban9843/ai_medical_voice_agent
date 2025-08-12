@@ -46,11 +46,13 @@ function AddNewSessionDialog() {
         });
         console.log("suguaan",result.data)
         if(result.data?.sessionId){
+            setLoading(true);
+
             console.log(result.data?.sessionId);
             //route to new conversation
             router.push('/dashboard/medical-agent/'+result.data?.sessionId)
         }
-         setLoading(false); 
+        setLoading(false); 
     }
 
     return (
@@ -75,7 +77,7 @@ function AddNewSessionDialog() {
                                 <h1>Select The Doctor</h1>
                                 <div className="grid grid-cols-3 gap-5 ">
                                     {/* suggested doctors */}
-                                    {suggestedDoctors?.map((doctor, index) => (
+                                    {Array.isArray(suggestedDoctors) && suggestedDoctors.map((doctor, index) => (
                                         <SuggestedDoctorCard key={index} doctorAgent={doctor} SetSelectedDoctor={() => { setSelectedDoctor(doctor) }}
                                             //@ts-ignore
                                             selectedDoctor={selectedDoctor} />

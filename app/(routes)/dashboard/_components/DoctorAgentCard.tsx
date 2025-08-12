@@ -17,7 +17,7 @@ type Props ={
 
 function DoctorAgentCard({doctorAgent}:Props) {
   return (
-    <div className=" ">
+    <div className="">
         <Image src={doctorAgent.image} alt={doctorAgent.specialist}
         width={200} height={300}
         className="w-full h-[250px] object-cover rounded-xl" />
