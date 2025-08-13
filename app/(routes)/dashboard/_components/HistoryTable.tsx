@@ -8,13 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { SessionDetail } from '../medical-agent/[sessionId]/page'
-import { Button } from '@/components/ui/button'
+import { SessionDetail ,Report } from '../medical-agent/[sessionId]/page'
 import moment from 'moment'
 import ViewReportDialog from './ViewReportDialog'
 
 type Props ={
-    historyList:SessionDetail[]
+    historyList:SessionDetail[]& { report?: Report }
 }
 function HistoryTable({historyList}:Props) {
   return (
@@ -30,12 +29,12 @@ function HistoryTable({historyList}:Props) {
                   </TableRow>
               </TableHeader>
               <TableBody>
-                {historyList.map((record:SessionDetail,index:number)=>(
-                    <TableRow>
+                {historyList.map((record:SessionDetail ,index:number)=>(
+                    <TableRow key={index}>
                       <TableCell className="font-medium">{record.selectedDoctor.specialist}</TableCell>
                       <TableCell>{record.notes}</TableCell>
                       <TableCell>{ moment(new Date(record.createdOn)).fromNow()}</TableCell>
-                      <TableCell className="text-right"><ViewReportDialog record={record}/></TableCell>
+                      <TableCell className="text-right"><ViewReportDialog record={record as SessionDetail & { report?: Report }} /></TableCell>
                   </TableRow>
                   ))
                 }

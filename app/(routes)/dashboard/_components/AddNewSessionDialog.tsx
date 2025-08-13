@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -17,6 +17,8 @@ import axios from 'axios'
 import DoctorAgentCard, { doctorAgent } from './DoctorAgentCard'
 import SuggestedDoctorCard from './SuggestedDoctorCard'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@clerk/nextjs'
+import { SessionDetail } from '../medical-agent/[sessionId]/page'
 
 function AddNewSessionDialog() {
 
@@ -25,6 +27,21 @@ function AddNewSessionDialog() {
     const [suggestedDoctors, setSuggestedDoctors] = useState<doctorAgent[]>();
     const [selectedDoctor, setSelectedDoctor] = useState<doctorAgent>();
     const router = useRouter()
+    const [historyList, setHistoryList] = useState<SessionDetail[]>([])
+
+    const { has }=useAuth();
+      //@ts-ignore
+    const paidUser = has&&has({plan:'pro'})
+    
+    useEffect(()=>{
+          GetHistoryList()
+        },[])
+    
+    const GetHistoryList = async()=>{
+        const result =await axios.get('/api/session-chat?sessionId=all')
+        console.log(result.data);;
+        setHistoryList(result.data)
+    }
 
 
     const OnClickNext = async () => {
@@ -50,6 +67,7 @@ function AddNewSessionDialog() {
 
             console.log(result.data?.sessionId);
             //route to new conversation
+            setLoading(true);
             router.push('/dashboard/medical-agent/'+result.data?.sessionId)
         }
         setLoading(false); 
@@ -57,9 +75,9 @@ function AddNewSessionDialog() {
 
     return (
         <Dialog >
-            <DialogTrigger  >
-                <span className='mt-2 inline-block px-4 py-2 bg-primary text-white rounded cursor-pointer hover:bg-primary/90'>
-                    Start Consultation
+            <DialogTrigger   >
+                <span>
+                    <Button className='mt-2 inline-block px-4 py-2 bg-primary text-white rounded cursor-pointer hover:bg-primary/90' disabled={!paidUser && historyList?.length>=1}>+ Start Consultation</Button>
                 </span>
             </DialogTrigger>
             <DialogContent>

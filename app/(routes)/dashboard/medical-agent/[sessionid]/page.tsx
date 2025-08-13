@@ -7,7 +7,7 @@ import { Circle, Loader2, PhoneCall, PhoneOff } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Vapi from '@vapi-ai/web';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 export type SessionDetail={
@@ -22,6 +22,19 @@ export type SessionDetail={
 type messages ={
   role:string,
   text:string
+}
+export interface Report {
+  sessionId: string;
+  agent: string;
+  user: string;
+  timestamp: string;
+  chiefComplaint: string;
+  summary: string;
+  symptoms: string[];
+  duration: string;
+  severity: string;
+  medicationsMentioned: string[];
+  recommendations: string[];
 }
 
 function  MedicalVoiceAgent() {
