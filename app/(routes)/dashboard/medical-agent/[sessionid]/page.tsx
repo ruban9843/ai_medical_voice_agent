@@ -2,40 +2,41 @@
 import axios from 'axios';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { doctorAgent } from '../../_components/DoctorAgentCard';
+import { doctorAgent } from '@/app/types/page';
 import { Circle, Loader2, PhoneCall, PhoneOff } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Vapi from '@vapi-ai/web';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { SessionDetail } from '@/app/types/page'
 
-export type SessionDetail={
-  id:number,
-  notes:string,
-  sessionId:string,
-  report:JSON,
-  selectedDoctor:doctorAgent,
-  createdOn:string,
-  voiceId:string
-}
+// export type SessionDetail={
+//   id:number,
+//   notes:string,
+//   sessionId:string,
+//   report:JSON,
+//   selectedDoctor:doctorAgent,
+//   createdOn:string,
+//   voiceId:string
+// }
 type messages ={
   role:string,
   text:string
 }
-export interface Report {
-  sessionId: string;
-  agent: string;
-  user: string;
-  timestamp: string;
-  chiefComplaint: string;
-  summary: string;
-  symptoms: string[];
-  duration: string;
-  severity: string;
-  medicationsMentioned: string[];
-  recommendations: string[];
-}
+// export interface Report {
+//   sessionId: string;
+//   agent: string;
+//   user: string;
+//   timestamp: string;
+//   chiefComplaint: string;
+//   summary: string;
+//   symptoms: string[];
+//   duration: string;
+//   severity: string;
+//   medicationsMentioned: string[];
+//   recommendations: string[];
+// }
 
 function  MedicalVoiceAgent() {
   const {sessionId}=useParams();
@@ -49,6 +50,7 @@ function  MedicalVoiceAgent() {
   const router =useRouter()
 
   useEffect(()=>{
+    console.log("sessionid", sessionId)
       sessionId && GetSessionDetails()
     },[sessionId]
   )

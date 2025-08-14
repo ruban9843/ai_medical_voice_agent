@@ -22,11 +22,6 @@ const menuOptions =[
         name:'Pricing',
         path:'/dashboard/billing'
     },
-    {
-        id:4,
-        name:'Profile',
-        path:'/profile'
-    }
 ]
 
 function AppHeader() {

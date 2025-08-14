@@ -14,11 +14,11 @@ import { Textarea } from '@/components/ui/textarea'
 import { DialogClose } from '@radix-ui/react-dialog'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import axios from 'axios'
-import DoctorAgentCard, { doctorAgent } from './DoctorAgentCard'
+import  { doctorAgent } from '@/app/types/page'
 import SuggestedDoctorCard from './SuggestedDoctorCard'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@clerk/nextjs'
-import { SessionDetail } from '../medical-agent/[sessionId]/page'
+import { SessionDetail } from '@/app/types/page'
 
 function AddNewSessionDialog() {
 

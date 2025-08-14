@@ -8,17 +8,17 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Loader2Icon } from 'lucide-react'
 import { IconArrowRight } from '@tabler/icons-react'
+import  { doctorAgent } from '@/app/types/page'
 
-
-export type doctorAgent ={
-    id:number,
-    specialist: string,
-    description: string,
-    image: string,
-    agentPrompt: string,
-    voiceId: string,
-    subscriptionRequired: boolean
-}
+// export type doctorAgent ={
+//     id:number,
+//     specialist: string,
+//     description: string,
+//     image: string,
+//     agentPrompt: string,
+//     voiceId: string,
+//     subscriptionRequired: boolean
+// }
 type Props ={
     doctorAgent: doctorAgent
 }

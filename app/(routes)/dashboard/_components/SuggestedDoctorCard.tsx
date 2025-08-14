@@ -1,5 +1,5 @@
 import React from 'react'
-import { doctorAgent } from './DoctorAgentCard' // Adjust the import path as necess
+import { doctorAgent } from '@/app/types/page' // Adjust the import path as necess
 import Image from 'next/image'
 
 

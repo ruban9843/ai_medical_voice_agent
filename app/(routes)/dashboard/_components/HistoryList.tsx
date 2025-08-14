@@ -5,7 +5,7 @@ import AddNewSessionDialog from './AddNewSessionDialog'
 import axios from 'axios'
 import{useEffect} from 'react'
 import HistoryTable from './HistoryTable'
-import { SessionDetail } from '../medical-agent/[sessionId]/page'
+import { SessionDetail } from '@/app/types/page'
 
 
 function HistoryList() {
