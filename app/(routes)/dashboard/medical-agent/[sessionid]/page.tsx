@@ -39,7 +39,7 @@ type messages ={
 // }
 
 function  MedicalVoiceAgent() {
-  const {sessionId}=useParams();
+  const {sessionid}=useParams();
   const [sessionDetail,setSessionDetail]=useState<SessionDetail>();
   const [callStarted,setCallStarted]=useState(false);
   const [vapiInstance,setVapiInstance]=useState<any>();
@@ -50,13 +50,13 @@ function  MedicalVoiceAgent() {
   const router =useRouter()
 
   useEffect(()=>{
-    console.log("sessionid", sessionId)
-      sessionId && GetSessionDetails()
-    },[sessionId]
+    console.log("sessionid", sessionid)
+      sessionid && GetSessionDetails()
+    },[sessionid]
   )
 
   const GetSessionDetails = async () => {
-    const result = await axios.get('/api/session-chat?sessionId=' + sessionId)
+    const result = await axios.get('/api/session-chat?sessionId=' + sessionid)
     console.log("ruban1", result.data);
     setSessionDetail(result.data)
   }
@@ -153,7 +153,7 @@ function  MedicalVoiceAgent() {
     const result =await axios.post('/api/medical-report',{
       messages:messages,
       sessionDetail:sessionDetail,
-      sessionId:sessionId
+      sessionId:sessionid
     })
     console.log(result.data);
     return result.data;
