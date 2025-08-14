@@ -5,6 +5,8 @@ import FeatureBentoGrid from "./_components/FeatureBentoGrid";
 import { UserButton, useUser } from "@clerk/nextjs";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
+import { LogOut } from "lucide-react";
 
 
 const Navbar = () => {
@@ -12,8 +14,7 @@ const Navbar = () => {
   return (
     <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 px-4 py-4 dark:border-neutral-800">
       <div className="flex items-center gap-2">
-        <div className="size-7 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
-        <h1 className="text-base font-bold md:text-2xl">Aceternity UI</h1>
+        <h1 className="text-base font-bold md:text-2xl"><Image src={'./logo1.svg'} alt="Logo" width={180} height={90} /></h1>
       </div>
       { !user ? 
          <Link href={'sign-in'} >
