@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { SessionDetail ,Report } from '@/app/types/page'
+import { SessionDetail ,Report } from '@/app/_types/page'
 import moment from 'moment'
 import ViewReportDialog from './ViewReportDialog'
 

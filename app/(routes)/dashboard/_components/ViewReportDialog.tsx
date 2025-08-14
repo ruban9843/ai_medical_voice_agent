@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { SessionDetail, Report } from "@/app/types/page";
+import { SessionDetail, Report } from "@/app/_types/page";
 import moment from "moment";
 
 type Props = {

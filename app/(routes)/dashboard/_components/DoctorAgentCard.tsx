@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Loader2Icon } from 'lucide-react'
 import { IconArrowRight } from '@tabler/icons-react'
-import  { doctorAgent } from '@/app/types/page'
+import  { doctorAgent } from '@/app/_types/page'
 
 // export type doctorAgent ={
 //     id:number,

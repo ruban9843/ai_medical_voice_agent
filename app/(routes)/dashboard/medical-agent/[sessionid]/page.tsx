@@ -2,14 +2,14 @@
 import axios from 'axios';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { doctorAgent } from '@/app/types/page';
+import { doctorAgent } from '@/app/_types/page';
 import { Circle, Loader2, PhoneCall, PhoneOff } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Vapi from '@vapi-ai/web';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { SessionDetail } from '@/app/types/page'
+import { SessionDetail } from '@/app/_types/page'
 
 // export type SessionDetail={
 //   id:number,
